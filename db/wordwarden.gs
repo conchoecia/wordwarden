@@ -1,4 +1,4 @@
-const RULES_URL = 'https://raw.githubusercontent.com/OWNER/REPO/BRANCH/path/rules.json';
+const RULES_URL = 'https://raw.githubusercontent.com/conchoecia/wordwarden/refs/heads/main/db/rules.json';
 const DEFAULT_RULES = [{ pattern: "\\butilize\\b", replacement: "use", flags: "gi" }];
 
 function loadRulesFromGitHub() {

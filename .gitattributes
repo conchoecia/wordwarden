@@ -1,0 +1,2 @@
+# Treat Google Apps Script files as JavaScript for highlighting
+*.gs linguist-language=JavaScript
