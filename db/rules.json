@@ -1,6 +1,6 @@
 [
   {"pattern":"\\butilize\\b","replacement":"use","flags":"gi","note":"Prefer plain English"},
-  {"pattern":"\\bin order to\\b","replacement":"to","flags":"gi"}
+  {"pattern":"\\bin order to\\b","replacement":"to","flags":"gi"},
   { "pattern": "\\butilize\\b", "replacement": "use", "flags": "gi", "note": "S&W" },
   { "pattern": "\\bin order to\\b", "replacement": "to", "flags": "gi", "note": "S&W" },
   { "pattern": "\\bprior to\\b", "replacement": "before", "flags": "gi", "note": "S&W" },
