@@ -28,10 +28,57 @@ function loadRulesFromGitHub() {
   return DEFAULT_RULES;
 }
 
-function autoFixAll() {
-  const text = DocumentApp.getActiveDocument().getBody().editAsText();
-  loadRulesFromGitHub().forEach(r => {
+
+/**
+ * Scan the active Google Doc and add comments for every rule match.
+ *
+ * Each rule from loadRulesFromGitHub() should look like:
+ *   {
+ *     pattern: "\\butilize\\b",
+ *     replacement: "use",
+ *     flags: "gi",
+ *     note: "Prefer plain English"
+ *   }
+ *
+ * For each match, this function:
+ *   - Locates the offending word/phrase
+ *   - Creates a suggested alternative
+ *   - Adds a comment to the document with an explanation
+ *
+ * @returns {void}
+ */
+function commentOnMatches() {
+  const doc = DocumentApp.getActiveDocument();
+  const body = doc.getBody();
+  const rules = loadRulesFromGitHub();
+
+  let commentCount = 0;
+
+  rules.forEach(r => {
     const re = new RegExp(r.pattern, r.flags || 'gi');
-    text.replaceText(re, r.replacement);
+    let match = body.findText(re);
+
+    while (match) {
+      const el = match.getElement().asText();
+      const start = match.getStartOffset();
+      const end = match.getEndOffsetInclusive();
+
+      // Build a Range covering just the matched text
+      const range = doc.newRange().addElement(el, start, end).build();
+
+      // Create a comment explaining the issue
+      const replacement = r.replacement || "";
+      const note = r.note ? ` (${r.note})` : "";
+      doc.setSelection(range);
+      doc.addComment(
+        `Consider replacing "${el.getText().substring(start, end + 1)}" with "${replacement}".${note}`
+      );
+
+      commentCount++;
+      // Find next match
+      match = body.findText(re, match);
+    }
   });
+
+  DocumentApp.getUi().alert(`Added ${commentCount} comment(s).`);
 }
