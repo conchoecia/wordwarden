@@ -1,0 +1,4 @@
+[
+  {"pattern":"\\butilize\\b","replacement":"use","flags":"gi","note":"Prefer plain English"},
+  {"pattern":"\\bin order to\\b","replacement":"to","flags":"gi"}
+]
